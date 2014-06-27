@@ -1,0 +1,165 @@
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<title>Pay-Me - Калькулятор комиссии</title>
+<script type="text/javascript" src="http://code.jquery.com/jquery-git.js"></script>
+<link rel="stylesheet" type="text/css" href="/css/result-light.css">
+  
+<style type="text/css">
+form {
+    width: 300px;
+}
+#sum {
+    display: block;
+    width: 100%;
+}
+.total-fee {
+    margin: 20px 0px;
+    background-color: pink;
+}
+.result {
+    margin: 20px 0px;
+    background-color: lightblue;
+}
+#total-fee {
+	display: block;
+    width: 100%;
+    text-align: center;
+}
+#result {
+    display: block;
+    width: 100%;
+    text-align: center;
+}
+.sel {
+    width: 100%;
+}
+.fees {
+    margin: 10px 0px;
+    background-color: lightyellow;
+}
+</style>
+<script type="text/javascript">//<![CDATA[ 
+	$(window).load(function(){	
+		calculateFee = function() {
+			var resValue = 0;
+			var res = $("#result");
+		
+			var sumValue = parseFloat($("#sum").val().replace(",","."));
+			var countryValue = $(".country").find(":selected").attr("value");
+			var bankValue = $(".bank").find(":selected").attr("value");
+
+			var baseFee = $("#base-fee");
+			var baseFeeValue = 0;
+			
+			var minFee = $("#min-fee");
+			var minFeeValue = 0;
+			
+			var minAmount = $("#min-amount");
+			var minAmountValue = 0;
+			
+			var totalFee = $("#total-fee");
+			var totalFeeValue = 0;
+			
+			if (countryValue == 1) {
+				if (bankValue == 1) {
+					baseFeeValue = 2.75;
+					minFeeValue = 0.5;
+					minAmountValue = 3.5;
+				}
+				if (bankValue == 2) {
+					baseFeeValue = 2.75;
+					minFeeValue = 0.5;
+					minAmountValue = 10;
+				}            
+			}
+			if (countryValue == 2) {
+				baseFeeValue = 2.75;
+			}
+			if (countryValue == 3) {
+				baseFeeValue = 2.75;
+			}
+			
+			baseFee.text(baseFeeValue +"%");
+			minFee.text(minFeeValue + "%");
+			minAmount.text(minAmountValue + " руб.");
+			
+			if (minFeeValue) {
+				var awaitFee = sumValue * baseFeeValue/100;
+				var limitFee = sumValue * minFeeValue/100 + minAmountValue;
+				if (awaitFee < limitFee) {
+					resValue = sumValue - limitFee;
+					totalFeeValue = limitFee;
+				} else {
+					resValue = sumValue - awaitFee;
+					totalFeeValue = awaitFee;
+				}
+			} else {
+				totalFeeValue = sumValue * baseFeeValue/100;
+				resValue = sumValue - totalFeeValue;
+			}
+			
+			totalFee.val(totalFeeValue);
+			res.val(resValue);
+		};
+
+		$(document).ready(function() {
+			var country = $(".country").val();
+			if (country == 1) {
+				$(".ru").show();
+			} else {
+				$(".ru").hide();
+			}
+			calculateFee();
+		});
+
+		$(".country").change(function() {
+			var country = $(this).val();
+			if (country == 1) {
+				$(".ru").show();
+			} else {
+				$(".ru").hide();
+			}
+			calculateFee();
+		});
+
+		$("#sum").change(function() {
+			calculateFee();
+		});
+
+		$(".bank").change(function() {
+			calculateFee();
+		});
+	});//]]>  
+</script>
+</head>
+<body> 
+    <form class="calc-form">
+        <div>Укажите сумму платежа:
+        <input id="sum">
+        </div>
+        <div>Выберите страну клиента:
+        <select name="country" class="sel country">
+            <option value="1">Россия</option>
+            <option value="2">Казахстан</option>
+            <option value="3">Украина</option>
+        </select>
+        </div>
+        <div class="ru" style="display: none;">Расчетный счёт клиента
+        <select name="bank" class="sel bank ru" style="display: none;">
+            <option value="1">в Альфа-Банке</option>
+            <option value="2">в другом банке</option>
+        </select>
+        </div>
+        <div class="fees">
+        <div class="base-fee">Размер комиссии: <span id="base-fee">0%</span></div>
+            <div class="ru min-fee" style="display: none;">Минимальная комиссия: <span id="min-fee">0%</span> + <span id="min-amount">0 руб.</span></div></div>
+        <div class="total-fee">Итого комиссия:
+		<input id="total-fee">
+		</div>
+		<div class="result">Будет начислено:
+        <input id="result">
+        </div>
+    </form>
+</body>
+</html>
