@@ -1,0 +1,32 @@
+form {
+    width: 300px;
+}
+#sum {
+    display: block;
+    width: 100%;
+}
+.total-fee {
+    margin: 20px 0px;
+    background-color: pink;
+}
+.result {
+    margin: 20px 0px;
+    background-color: lightblue;
+}
+#total-fee {
+	display: block;
+    width: 100%;
+    text-align: center;
+}
+#result {
+    display: block;
+    width: 100%;
+    text-align: center;
+}
+.sel {
+    width: 100%;
+}
+.fees {
+    margin: 10px 0px;
+    background-color: lightyellow;
+}
