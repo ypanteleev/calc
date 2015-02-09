@@ -25,12 +25,12 @@ $(window).load(function(){
 		if (countryValue == 1) {
 			if (bankValue == 1) {
 				baseFeeValue = 2.75;
-				minFeeValue = 0.5;
+				minFeeValue = 0.6;
 				minAmountValue = 3.5;
 			}
 			if (bankValue == 2) {
 				baseFeeValue = 2.75;
-				minFeeValue = 0.5;
+				minFeeValue = 0.6;
 				minAmountValue = 10;
 			}				
 			minPayValue = 30;
